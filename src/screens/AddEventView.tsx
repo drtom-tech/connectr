@@ -24,6 +24,7 @@ export default function AddEventView({ onNavigateBack }: AddEventViewProps) {
   const [date, setDate] = useState(new Date());
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [eventSaved, setEventSaved] = useState(false);
 
   const handleSave = async () => {
     if (!name.trim()) {
@@ -40,10 +41,19 @@ export default function AddEventView({ onNavigateBack }: AddEventViewProps) {
         date: date,
       });
       
+      console.log('Event created successfully, navigating back...');
+      setEventSaved(true);
       Alert.alert('Success', 'Event created successfully!', [
-        { text: 'OK', onPress: onNavigateBack }
+        { 
+          text: 'OK', 
+          onPress: () => {
+            console.log('Alert OK pressed, calling onNavigateBack');
+            onNavigateBack();
+          }
+        }
       ]);
     } catch (error: any) {
+      console.error('Error creating event:', error);
       Alert.alert('Error', error.message || 'Failed to create event');
     } finally {
       setLoading(false);
@@ -76,19 +86,34 @@ export default function AddEventView({ onNavigateBack }: AddEventViewProps) {
           <Text style={styles.backButtonText}>Cancel</Text>
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Add Event</Text>
-        <TouchableOpacity
-          style={[styles.saveButton, loading && styles.saveButtonDisabled]}
-          onPress={handleSave}
-          disabled={loading}
-        >
-          <Text style={styles.saveButtonText}>
-            {loading ? 'Saving...' : 'Save'}
-          </Text>
-        </TouchableOpacity>
+        {eventSaved ? (
+          <TouchableOpacity
+            style={styles.doneButton}
+            onPress={onNavigateBack}
+          >
+            <Text style={styles.doneButtonText}>Done</Text>
+          </TouchableOpacity>
+        ) : (
+          <TouchableOpacity
+            style={[styles.saveButton, loading && styles.saveButtonDisabled]}
+            onPress={handleSave}
+            disabled={loading}
+          >
+            <Text style={styles.saveButtonText}>
+              {loading ? 'Saving...' : 'Save'}
+            </Text>
+          </TouchableOpacity>
+        )}
       </View>
 
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
         <View style={styles.form}>
+          {eventSaved && (
+            <View style={styles.successMessage}>
+              <Text style={styles.successText}>✅ Event saved successfully!</Text>
+              <Text style={styles.successSubtext}>Tap "Done" to return to timeline</Text>
+            </View>
+          )}
           <Text style={styles.label}>Event Name *</Text>
           <TextInput
             style={styles.input}
@@ -182,6 +207,17 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontWeight: '600',
   },
+  doneButton: {
+    backgroundColor: '#34C759',
+    paddingHorizontal: 16,
+    paddingVertical: 8,
+    borderRadius: 6,
+  },
+  doneButtonText: {
+    color: 'white',
+    fontSize: 14,
+    fontWeight: '600',
+  },
   content: {
     flex: 1,
   },
@@ -222,6 +258,24 @@ const styles = StyleSheet.create({
   },
   datePicker: {
     marginBottom: 16,
+  },
+  successMessage: {
+    backgroundColor: '#E8F5E8',
+    padding: 16,
+    borderRadius: 8,
+    marginBottom: 20,
+    borderWidth: 1,
+    borderColor: '#34C759',
+  },
+  successText: {
+    fontSize: 16,
+    fontWeight: '600',
+    color: '#2D7D32',
+    marginBottom: 4,
+  },
+  successSubtext: {
+    fontSize: 14,
+    color: '#2D7D32',
   },
 });
 
