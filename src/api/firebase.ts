@@ -22,13 +22,16 @@ import { Event, Person, Attendance, Relationship } from '../types';
 
 // Firebase configuration
 const firebaseConfig = {
-  apiKey: process.env.REACT_APP_FIREBASE_API_KEY || "AIzaSyDyeIgBxyp3zmfUakFXUQUMNhSBKGBHmkE",
-  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN || "conn3ctr-fce52.firebaseapp.com",
-  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID || "conn3ctr-fce52",
-  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET || "conn3ctr-fce52.firebasestorage.app",
-  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID || "144936221659",
-  appId: process.env.REACT_APP_FIREBASE_APP_ID || "1:144936221659:web:efdfea531c7a45d96e85fe"
+  apiKey: "AIzaSyDyeIgBxyp3zmfUakFXUQUMNhSBKGBHmkE",
+  authDomain: "conn3ctr-fce52.firebaseapp.com",
+  projectId: "conn3ctr-fce52",
+  storageBucket: "conn3ctr-fce52.firebasestorage.app",
+  messagingSenderId: "144936221659",
+  appId: "1:144936221659:web:efdfea531c7a45d96e85fe"
 };
+
+// Debug: Log Firebase config (remove in production)
+console.log('Firebase Config:', firebaseConfig);
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
@@ -38,18 +41,24 @@ export const db = getFirestore(app);
 // Auth functions
 export const signUp = async (email: string, password: string) => {
   try {
+    console.log('Attempting to sign up with:', email);
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    console.log('Sign up successful:', userCredential.user);
     return userCredential.user;
   } catch (error) {
+    console.error('Sign up error:', error);
     throw error;
   }
 };
 
 export const signIn = async (email: string, password: string) => {
   try {
+    console.log('Attempting to sign in with:', email);
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    console.log('Sign in successful:', userCredential.user);
     return userCredential.user;
   } catch (error) {
+    console.error('Sign in error:', error);
     throw error;
   }
 };
