@@ -34,6 +34,13 @@ export default function AddEventView({ onNavigateBack }: AddEventViewProps) {
 
     setLoading(true);
     try {
+      console.log('Creating event with data:', {
+        name: name.trim(),
+        location: location.trim(),
+        description: description.trim(),
+        date: date,
+      });
+      
       await createEvent({
         name: name.trim(),
         location: location.trim(),

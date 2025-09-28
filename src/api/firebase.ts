@@ -73,19 +73,30 @@ export const createEvent = async (data: Partial<Event>): Promise<void> => {
   if (!user) throw new Error('User not authenticated');
 
   try {
-    await addDoc(collection(db, 'events'), {
+    console.log('Creating event in Firestore with data:', {
       ...data,
       userId: user.uid,
       date: Timestamp.fromDate(data.date || new Date()),
       createdAt: Timestamp.now()
     });
+    
+    const docRef = await addDoc(collection(db, 'events'), {
+      ...data,
+      userId: user.uid,
+      date: Timestamp.fromDate(data.date || new Date()),
+      createdAt: Timestamp.now()
+    });
+    
+    console.log('Event created with ID:', docRef.id);
   } catch (error) {
+    console.error('Error creating event in Firestore:', error);
     throw error;
   }
 };
 
 export const getEvents = async (userId: string): Promise<Event[]> => {
   try {
+    console.log('Getting events for userId:', userId);
     const eventsRef = collection(db, 'events');
     const q = query(
       eventsRef, 
@@ -94,12 +105,18 @@ export const getEvents = async (userId: string): Promise<Event[]> => {
     );
     const querySnapshot = await getDocs(q);
     
-    return querySnapshot.docs.map(doc => ({
+    console.log('Found', querySnapshot.docs.length, 'events');
+    
+    const events = querySnapshot.docs.map(doc => ({
       eventID: doc.id,
       ...doc.data(),
       date: doc.data().date.toDate()
     } as Event));
+    
+    console.log('Mapped events:', events);
+    return events;
   } catch (error) {
+    console.error('Error getting events:', error);
     throw error;
   }
 };

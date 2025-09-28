@@ -27,9 +27,14 @@ export default function TimelineView({
   const loadEvents = async () => {
     try {
       const user = getCurrentUser();
-      if (!user) return;
+      console.log('Loading events for user:', user?.uid);
+      if (!user) {
+        console.log('No user found, cannot load events');
+        return;
+      }
 
       const eventsData = await getEvents(user.uid);
+      console.log('Loaded events:', eventsData);
       setEvents(eventsData);
     } catch (error) {
       console.error('Error loading events:', error);
