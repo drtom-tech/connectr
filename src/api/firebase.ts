@@ -31,7 +31,7 @@ const firebaseConfig = {
 };
 
 // Debug: Log Firebase config (remove in production)
-console.log('Firebase Config:', firebaseConfig);
+console.log('Firebase Config v2:', firebaseConfig);
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);

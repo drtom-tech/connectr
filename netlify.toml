@@ -1,6 +1,6 @@
 [build]
   publish = "dist"
-  command = "npm install && npx expo export --platform web"
+  command = "npm install && npx expo export --platform web --clear"
 
 [build.environment]
   NODE_VERSION = "18"
