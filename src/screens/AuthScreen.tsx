@@ -39,16 +39,39 @@ export default function AuthScreen({ onAuthSuccess }: AuthScreenProps) {
         console.log('Attempting sign up...');
         await signUp(email, password);
         console.log('Sign up successful, calling onAuthSuccess');
-        Alert.alert('Success', 'Account created successfully!');
+        Alert.alert('Success', 'Account created successfully! Welcome to Connectr!');
       } else {
         console.log('Attempting sign in...');
         await signIn(email, password);
         console.log('Sign in successful, calling onAuthSuccess');
+        Alert.alert('Success', 'Welcome back to Connectr!');
       }
       onAuthSuccess();
     } catch (error: any) {
       console.error('Authentication error:', error);
-      Alert.alert('Error', error.message || 'Authentication failed');
+      
+      // Handle specific Firebase error codes with user-friendly messages
+      let errorMessage = 'Authentication failed';
+      
+      if (error.code === 'auth/weak-password') {
+        errorMessage = 'Password must be at least 6 characters long';
+      } else if (error.code === 'auth/email-already-in-use') {
+        errorMessage = 'An account with this email already exists';
+      } else if (error.code === 'auth/invalid-email') {
+        errorMessage = 'Please enter a valid email address';
+      } else if (error.code === 'auth/user-not-found') {
+        errorMessage = 'No account found with this email address';
+      } else if (error.code === 'auth/wrong-password') {
+        errorMessage = 'Incorrect password';
+      } else if (error.code === 'auth/invalid-credential') {
+        errorMessage = 'Invalid email or password';
+      } else if (error.code === 'auth/too-many-requests') {
+        errorMessage = 'Too many failed attempts. Please try again later';
+      } else if (error.message) {
+        errorMessage = error.message;
+      }
+      
+      Alert.alert('Error', errorMessage);
     } finally {
       console.log('Setting loading to false');
       setLoading(false);
@@ -78,7 +101,7 @@ export default function AuthScreen({ onAuthSuccess }: AuthScreenProps) {
             
             <TextInput
               style={styles.input}
-              placeholder="Password"
+              placeholder="Password (min 6 characters)"
               value={password}
               onChangeText={setPassword}
               secureTextEntry
