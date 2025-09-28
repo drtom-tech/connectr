@@ -19,19 +19,7 @@ import {
   Timestamp
 } from 'firebase/firestore';
 import { Event, Person, Attendance, Relationship } from '../types';
-
-// Firebase configuration
-const firebaseConfig = {
-  apiKey: "AIzaSyDyeIgBxyp3zmfUakFXUQUMNhSBKGBHmkE",
-  authDomain: "conn3ctr-fce52.firebaseapp.com",
-  projectId: "conn3ctr-fce52",
-  storageBucket: "conn3ctr-fce52.firebasestorage.app",
-  messagingSenderId: "144936221659",
-  appId: "1:144936221659:web:efdfea531c7a45d96e85fe"
-};
-
-// Debug: Log Firebase config (remove in production)
-console.log('Firebase Config v3 - Cache Bust:', new Date().toISOString(), firebaseConfig);
+import { firebaseConfig } from '../config/firebase-config';
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
