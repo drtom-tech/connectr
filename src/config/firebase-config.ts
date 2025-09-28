@@ -9,4 +9,6 @@ export const firebaseConfig = {
 };
 
 // Debug: Log Firebase config (remove in production)
-console.log('NEW Firebase Config - Force Rebuild:', new Date().toISOString(), firebaseConfig);
+console.log('🔥 NEW Firebase Config - Force Rebuild:', new Date().toISOString(), firebaseConfig);
+console.log('🔥 API Key starts with:', firebaseConfig.apiKey.substring(0, 10) + '...');
+console.log('🔥 Project ID:', firebaseConfig.projectId);
