@@ -33,11 +33,13 @@ export default function TimelineView({
         return;
       }
 
+      console.log('About to call getEvents...');
       const eventsData = await getEvents(user.uid);
       console.log('Loaded events:', eventsData);
       setEvents(eventsData);
     } catch (error) {
       console.error('Error loading events:', error);
+      console.error('Error details:', error.message, error.code);
     } finally {
       setLoading(false);
       setRefreshing(false);

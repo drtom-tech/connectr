@@ -80,6 +80,11 @@ export const createEvent = async (data: Partial<Event>): Promise<void> => {
       createdAt: Timestamp.now()
     });
     
+    // Test basic Firestore connection first
+    console.log('Testing Firestore connection...');
+    const testDoc = await addDoc(collection(db, 'test'), { test: true, userId: user.uid });
+    console.log('Test document created:', testDoc.id);
+    
     const docRef = await addDoc(collection(db, 'events'), {
       ...data,
       userId: user.uid,
@@ -90,6 +95,8 @@ export const createEvent = async (data: Partial<Event>): Promise<void> => {
     console.log('Event created with ID:', docRef.id);
   } catch (error) {
     console.error('Error creating event in Firestore:', error);
+    console.error('Error code:', error.code);
+    console.error('Error message:', error.message);
     throw error;
   }
 };
