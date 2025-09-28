@@ -21,14 +21,13 @@ import {
 import { Event, Person, Attendance, Relationship } from '../types';
 
 // Firebase configuration
-// Note: In a real app, these should be environment variables
 const firebaseConfig = {
-  apiKey: "your-api-key-here",
-  authDomain: "connectr-mvp.firebaseapp.com",
-  projectId: "connectr-mvp",
-  storageBucket: "connectr-mvp.appspot.com",
-  messagingSenderId: "123456789",
-  appId: "your-app-id-here"
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY || "AIzaSyDyeIgBxyp3zmfUakFXUQUMNhSBKGBHmkE",
+  authDomain: process.env.REACT_APP_FIREBASE_AUTH_DOMAIN || "conn3ctr-fce52.firebaseapp.com",
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID || "conn3ctr-fce52",
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET || "conn3ctr-fce52.firebasestorage.app",
+  messagingSenderId: process.env.REACT_APP_FIREBASE_MESSAGING_SENDER_ID || "144936221659",
+  appId: process.env.REACT_APP_FIREBASE_APP_ID || "1:144936221659:web:efdfea531c7a45d96e85fe"
 };
 
 // Initialize Firebase
