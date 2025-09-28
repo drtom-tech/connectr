@@ -23,23 +23,34 @@ export default function AuthScreen({ onAuthSuccess }: AuthScreenProps) {
   const [loading, setLoading] = useState(false);
 
   const handleAuth = async () => {
+    console.log('handleAuth called with:', { email, password, isSignUp });
+    
     if (!email || !password) {
+      console.log('Missing email or password');
       Alert.alert('Error', 'Please fill in all fields');
       return;
     }
 
     setLoading(true);
+    console.log('Starting authentication...');
+    
     try {
       if (isSignUp) {
+        console.log('Attempting sign up...');
         await signUp(email, password);
+        console.log('Sign up successful, calling onAuthSuccess');
         Alert.alert('Success', 'Account created successfully!');
       } else {
+        console.log('Attempting sign in...');
         await signIn(email, password);
+        console.log('Sign in successful, calling onAuthSuccess');
       }
       onAuthSuccess();
     } catch (error: any) {
+      console.error('Authentication error:', error);
       Alert.alert('Error', error.message || 'Authentication failed');
     } finally {
+      console.log('Setting loading to false');
       setLoading(false);
     }
   };

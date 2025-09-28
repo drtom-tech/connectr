@@ -9,7 +9,9 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
+    console.log('Setting up auth state listener...');
     const unsubscribe = onAuthStateChange((user) => {
+      console.log('Auth state changed:', user ? 'User logged in' : 'User logged out');
       setIsAuthenticated(!!user);
       setIsLoading(false);
     });
@@ -29,7 +31,10 @@ export default function App() {
     <View style={styles.container}>
       <AppNavigator 
         isAuthenticated={isAuthenticated}
-        onAuthSuccess={() => setIsAuthenticated(true)}
+        onAuthSuccess={() => {
+          console.log('onAuthSuccess called, setting authenticated to true');
+          setIsAuthenticated(true);
+        }}
       />
       <StatusBar style="auto" />
     </View>
