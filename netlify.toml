@@ -1,6 +1,6 @@
 [build]
   publish = "dist"
-  command = "rm -rf dist && npm install && npx expo export --platform web --clear"
+  command = "rm -rf dist && npm install && npx expo export --platform web --clear --no-minify"
 
 [build.environment]
   NODE_VERSION = "18"
