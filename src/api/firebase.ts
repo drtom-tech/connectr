@@ -31,7 +31,7 @@ const firebaseConfig = {
 };
 
 // Debug: Log Firebase config (remove in production)
-console.log('Firebase Config v2:', firebaseConfig);
+console.log('Firebase Config v3 - Cache Bust:', new Date().toISOString(), firebaseConfig);
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
