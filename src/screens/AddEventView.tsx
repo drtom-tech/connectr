@@ -131,21 +131,40 @@ export default function AddEventView({ onNavigateBack }: AddEventViewProps) {
           />
 
           <Text style={styles.label}>Date & Time</Text>
-          <TouchableOpacity
-            style={styles.dateButton}
-            onPress={() => setShowDatePicker(true)}
-          >
-            <Text style={styles.dateButtonText}>{formatDate(date)}</Text>
-          </TouchableOpacity>
-
-          {showDatePicker && (
-            <DateTimePicker
-              value={date}
-              mode="datetime"
-              display={Platform.OS === 'ios' ? 'spinner' : 'default'}
-              onChange={onDateChange}
-              style={styles.datePicker}
+          {Platform.OS === 'web' ? (
+            <input
+              type="datetime-local"
+              value={date.toISOString().slice(0, 16)}
+              onChange={(e) => setDate(new Date(e.target.value))}
+              style={{
+                width: '100%',
+                padding: '12px 16px',
+                borderRadius: '8px',
+                border: '1px solid #ddd',
+                fontSize: '16px',
+                marginBottom: '16px',
+                backgroundColor: 'white',
+              }}
             />
+          ) : (
+            <>
+              <TouchableOpacity
+                style={styles.dateButton}
+                onPress={() => setShowDatePicker(true)}
+              >
+                <Text style={styles.dateButtonText}>{formatDate(date)}</Text>
+              </TouchableOpacity>
+
+              {showDatePicker && (
+                <DateTimePicker
+                  value={date}
+                  mode="datetime"
+                  display={Platform.OS === 'ios' ? 'spinner' : 'default'}
+                  onChange={onDateChange}
+                  style={styles.datePicker}
+                />
+              )}
+            </>
           )}
 
           <Text style={styles.label}>Location</Text>
