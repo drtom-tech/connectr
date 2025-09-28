@@ -8,6 +8,7 @@ import {
   SafeAreaView,
   RefreshControl,
 } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import { getEvents, getCurrentUser } from '../api/firebase';
 import { Event } from '../types';
 
@@ -49,6 +50,14 @@ export default function TimelineView({
   useEffect(() => {
     loadEvents();
   }, []);
+
+  // Refresh events when the screen comes into focus (e.g., returning from AddEvent)
+  useFocusEffect(
+    React.useCallback(() => {
+      console.log('Timeline screen focused, refreshing events...');
+      loadEvents();
+    }, [])
+  );
 
   const onRefresh = () => {
     setRefreshing(true);

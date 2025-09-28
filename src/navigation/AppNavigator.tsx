@@ -39,6 +39,12 @@ export default function AppNavigator({ isAuthenticated, onAuthSuccess }: AppNavi
                   onNavigateToEventDetail={(eventId: string) => 
                     props.navigation.navigate('EventDetail', { eventId })
                   }
+                  ref={(ref) => {
+                    // Store reference to TimelineView for refreshing
+                    if (ref) {
+                      (props.navigation as any).timelineRef = ref;
+                    }
+                  }}
                 />
               )}
             </Stack.Screen>
@@ -47,7 +53,14 @@ export default function AppNavigator({ isAuthenticated, onAuthSuccess }: AppNavi
               {(props) => (
                 <AddEventView
                   {...props}
-                  onNavigateBack={() => props.navigation.goBack()}
+                  onNavigateBack={() => {
+                    // Refresh timeline before going back
+                    const timelineRef = (props.navigation as any).timelineRef;
+                    if (timelineRef && timelineRef.loadEvents) {
+                      timelineRef.loadEvents();
+                    }
+                    props.navigation.goBack();
+                  }}
                 />
               )}
             </Stack.Screen>

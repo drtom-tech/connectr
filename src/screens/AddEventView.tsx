@@ -50,15 +50,12 @@ export default function AddEventView({ onNavigateBack }: AddEventViewProps) {
       
       console.log('Event created successfully, navigating back...');
       setEventSaved(true);
-      Alert.alert('Success', 'Event created successfully!', [
-        { 
-          text: 'OK', 
-          onPress: () => {
-            console.log('Alert OK pressed, calling onNavigateBack');
-            onNavigateBack();
-          }
-        }
-      ]);
+      
+      // Navigate back immediately after successful save
+      setTimeout(() => {
+        console.log('Navigating back to timeline');
+        onNavigateBack();
+      }, 500); // Small delay to show success state
     } catch (error: any) {
       console.error('Error creating event:', error);
       Alert.alert('Error', error.message || 'Failed to create event');
@@ -90,7 +87,7 @@ export default function AddEventView({ onNavigateBack }: AddEventViewProps) {
           style={styles.backButton}
           onPress={onNavigateBack}
         >
-          <Text style={styles.backButtonText}>Cancel</Text>
+          <Text style={styles.backButtonText}>Back</Text>
         </TouchableOpacity>
         <Text style={styles.headerTitle}>Add Event</Text>
         {eventSaved ? (
